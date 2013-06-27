@@ -1,0 +1,13 @@
+This is a minimal Linux simulation environment based on QEMU. Before you run it you should set "WORKSPACE" and "PREFIX", then you can run it by "sudo ./qemu.sh".
+
+
+bzImage
+  Linux kernel image.
+config
+  a configure file copy from linux source file ".config".
+ifup-qemu
+  a shell script for QEMU network.
+qemu.sh
+  a shell script to start qemu.
+rootfs
+  this is a root filesystem for Linux NFS.

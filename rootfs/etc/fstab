@@ -1,0 +1,8 @@
+# <file system>  <mount-point>  <type>   <options>            <dump>  <fsck>
+#                                                                    <order>
+proc             /proc          proc     nosuid,noexec,nodev   0       0
+sysfs            /sys           sysfs    nosuid,noexec,nodev   0       0
+ramfs            /var           ramfs    defaults              0       0
+tmpfs            /dev           tmpfs    rw,size=64k,mode=0755       0       0
+#/dev/<yyy> swap swap pri=1 0 0
+#tmpfs            /run           tmpfs    defaults             0       0

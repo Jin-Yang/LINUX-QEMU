@@ -1,0 +1,66 @@
+#! /bin/sh
+echo "running /etc/init.d/rcS"
+
+###### Filesystem mount
+# mount the devpts for telnet, this is done in '/etc/fstab'.
+if [ ! -d /dev/pts ]; then
+	/bin/mkdir /dev/pts
+fi
+# mount /etc/fstab specified devices.
+/bin/mount -a
+
+###### Devices manage
+# Using mdev instead of udev to manage devices.
+# Details in Busybox/docs/mdev.txt
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+
+# make some other nodes.
+if [ ! -c /dev/ptmx ]; then
+	/bin/mknod -m 666 /dev/ptmx c 5 2
+fi
+if [ ! -c /dev/console ]; then
+	/bin/mknod -m 600 /dev/console c 5 1
+fi
+if [ ! -c /dev/null ]; then
+	/bin/mknod -m 666 /dev/null c 1 3
+fi
+
+###### Network set
+# Actually we should call 'ifup -a' which read file 
+# '/etc/network/interfaces', but we use the following
+# commands instead.
+/bin/hostname atmel
+/sbin/ifconfig lo 127.0.0.1 netmask 255.0.0.0
+/sbin/ifconfig eth0 192.168.9.88 netmask 255.255.255.0
+/sbin/route add default gw 192.168.9.1
+
+
+
+#echo "starting udevd..." 
+#/sbin/udevd --daemon
+#/sbin/udevstart 
+
+#echo "starting telnetd..."
+#/usr/sbin/telnetd -l /bin/sh
+#/usr/sbin/telnetd -l /bin/login
+
+#echo "starting ftp server..."
+#/usr/bin/tcpsvd -vE 0.0.0.0 21 ftpd -wv / &
+
+
+# Some other setting
+alias ls="ls --color"
+
+#/sbin/hwclock --hctosys
+
+#/bin/ln -s /dev/rtc0 /dev/rtc
+
+#/bin/mount -t yaffs2 /dev/mtdblock1 /home/
+
+
+
+
+
+
+#exec /etc/init.d/rcS.local
