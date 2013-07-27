@@ -1,4 +1,4 @@
-This is a minimal Linux simulation environment based on QEMU. Before you run it you should set "WORKSPACE" and "PREFIX", then you can run it by "sudo ./qemu.sh".
+This is a minimal Linux simulation environment based on QEMU. You can run it just by "sudo ./qemu.sh".
 
 
 bzImage

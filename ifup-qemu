@@ -1,3 +1,2 @@
 #!/bin/sh
-echo "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ifconfig $1 192.168.9.33

@@ -19,4 +19,5 @@ floppy:*:25:
 tape:*:26:
 sudo:*:27:
 audio:*:29:
+staff:*:50:
 ppp:x:99:

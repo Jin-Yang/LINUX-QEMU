@@ -2,12 +2,12 @@
 echo "running /etc/init.d/rcS"
 
 ###### Filesystem mount
+# mount /etc/fstab specified devices.
+/bin/mount -a
 # mount the devpts for telnet, this is done in '/etc/fstab'.
 if [ ! -d /dev/pts ]; then
 	/bin/mkdir /dev/pts
 fi
-# mount /etc/fstab specified devices.
-/bin/mount -a
 
 ###### Devices manage
 # Using mdev instead of udev to manage devices.
