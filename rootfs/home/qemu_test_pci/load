@@ -1,0 +1,2 @@
+insmod ./qemu_test_pci.ko
+

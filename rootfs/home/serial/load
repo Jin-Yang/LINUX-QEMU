@@ -1,0 +1,4 @@
+insmod ./serial_core.ko
+insmod ./8250.ko
+insmod ./8250_pnp.ko
+insmod ./8250_pci.ko

@@ -1,0 +1,12 @@
+kernel/drivers/tty/serial/serial_core.ko:
+kernel/drivers/tty/serial/8250/8250.ko: kernel/drivers/tty/serial/serial_core.ko
+kernel/drivers/tty/serial/8250/8250_pnp.ko: kernel/drivers/tty/serial/8250/8250.ko kernel/drivers/tty/serial/serial_core.ko
+kernel/drivers/tty/serial/8250/8250_pci.ko: kernel/drivers/tty/serial/8250/8250.ko kernel/drivers/tty/serial/serial_core.ko
+kernel/drivers/scsi/scsi_wait_scan.ko:
+kernel/drivers/net/can/vcan.ko:
+kernel/drivers/net/can/can-dev.ko:
+kernel/drivers/net/can/sja1000/sja1000.ko: kernel/drivers/net/can/can-dev.ko
+kernel/net/can/can.ko:
+kernel/net/can/can-raw.ko: kernel/net/can/can.ko
+kernel/net/can/can-bcm.ko: kernel/net/can/can.ko
+kernel/net/can/can-gw.ko: kernel/net/can/can.ko

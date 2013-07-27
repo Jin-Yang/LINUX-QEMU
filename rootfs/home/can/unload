@@ -1,0 +1,4 @@
+rmmod can_pci
+rmmod can
+rmmod can_core
+
