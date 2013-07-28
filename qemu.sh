@@ -1,6 +1,6 @@
 #! /bin/sh
 
-WORKSPACE=/home/andy/Projects/GSoC2013/Linux
+WORKSPACE=`pwd`
 PREFIX=/opt/qemu/bin
 
 
