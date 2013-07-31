@@ -1,0 +1,43 @@
+This is a suit for serial. We just copy the source code from Linux-kernel and QEMU.
+
+8250
+    a linux driver to test serial.
+QEMU
+    QEMU serial device simulation code.
+   
+
+== PREPARE ==
+This is base on the QEMU-Linux environment, and we boot linux through NFS. Before test it, we should change some environment variabes.
+
+   8250/Makefile: KERNEL_PATH, change it to your dir of linux source.
+   8250/copy.sh: NFS_PATH, change it to the root of NFS filesystem.
+
+
+
+== TEST ==
+Then we can test it through the following steps.
+
+	1). start QEMU using the following arguments.
+	 -serial none -chardev vc,id=PCIserial -device pci-serial,chardev=PCIserial
+
+	2). type "info pci" in QEMU monitor, and you will find message like this,
+		Serial port: PCI device 1b36:002
+			IRQ 11
+			BAR0: I/O at 0xc050 [0xc057]
+			id ""
+		also, you can type "lspci" in QEMU, and get msessage like
+        00:03:0 Class 0700: 1b36:0002
+
+	3). compile the serial driver.
+		make && sudo ./copy
+
+	4). insert the serial driver in QEUM.
+		cd /home/serial; ./load
+
+	5). test
+		# echo test>/dev/ttyS0
+		you will get test in PCIserial console.
+		# cat /dev/ttyS0
+		if input some message to PCIserial console, then you will get it in QEMU-Linux.
+
+

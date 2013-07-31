@@ -1,0 +1,63 @@
+This is a suit for test a basci PCI-CAN device in QEMU, including a PCI-CAN device and a Linux driver for it. 
+Note: the IRQ problem has not been solved.
+
+
+
+
+
+
+
+
+
+pci_can.c
+   QEMU PCI-CAN device simulation code.
+qemu_char.c
+	CAN backend.
+linux_driver
+   a linux driver to test the device.
+
+
+== PREPARE ==
+This is base on the QEMU-Linux environment, and we boot linux through NFS. Before test it, we should change some environment variabes.
+
+   linux_driver/Makefile: KERNEL_PATH, change it to your dir of linux source.
+   linux_driver/copy.sh: NFS_PATH, change it to the root of NFS filesystem.
+
+
+
+== TEST ==
+Then we can test it through the following steps.
+
+   1). copy pci_testdev2.c to ${QEMU}/hw/pci_testdev2.c, and add "common-obj-y += pci_testdev2.o" to ${QEMU}/hw/Makefile.objs. So, we have added a device to QEMU.
+
+   2). there are two ways to add this device to QEMU.
+     * add the following code to hw/pc_piix.c-pc_init1()
+     ------------------------------  BEGIN  -------------------------------
+       pc_cmos_init(below_4g_mem_size, above_4g_mem_size, boot_device,
+                 floppy, idebus[0], idebus[1], rtc_state);
+	   // Next is what we should add.
+	   pci_create_simple_multifunction(pci_bus, -1, true ,"pci_simple_tst");
+     -------------------------------  END  --------------------------------
+     * OR, when start QEMU pass argument "-device pci_simple_tst" to it.
+
+   3). perform "sudo ./copy.sh", then the linux driver will copy to /home/qemu_test_pci/ in QEMU.
+
+   4). start qemu, and perform "./load" in QEMU, we will get the following messages, or like.
+   in QEMU:
+      write to 0xc8810000 and read back 0x12345678
+      write to 0xc8810008 and read back 0x89
+   in HOST:
+	  write 0x12345678 to 0xb88808a0
+	      pci_mem_addr 0x12345678
+	  read 4 bytes of 0x12345678 from 0xb88808a0
+	  write 0x89 to 0xb88808a8
+	      pci_mem_addr 0x89
+	  read 1 bytes of 0xb7e42a89 from 0xb88808a8
+
+
+NOTE:
+   ${QEMU} represent the root of qemu source code.
+
+   This is only a simply pci device :-)
+
+

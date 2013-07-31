@@ -1,0 +1,5 @@
+rmmod 8250_pci 
+rmmod 8250_pnp
+rmmod 8250
+rmmod serial_core
+

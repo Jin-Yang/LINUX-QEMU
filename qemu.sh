@@ -51,7 +51,7 @@ $PREFIX/qemu-system-i386 -s -m 128 -kernel bzImage \
 	-serial none \
 	-chardev vc,id=PCIserial \
 	-device pci-serial,chardev=PCIserial \
-	-chardev can,id=sja1000 \
+	-chardev can,id=sja1000,port=vcan0 \
 	-device pci-can,chardev=sja1000
 
 
