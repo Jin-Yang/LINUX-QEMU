@@ -1,0 +1,43 @@
+This is a suit for test a basci PCI-CAN device in QEMU, including a PCI-CAN device and a Linux driver for it. 
+Note: the IRQ problem has not been solved.
+
+
+pci_can.c
+   QEMU PCI-CAN device simulation code.
+pci_can.h
+   QEMU PCI-CAN device simulation code header.
+qemu_char.c
+	CAN backend.
+linux_driver
+   a linux driver to test the device.
+
+
+
+== PREPARE ==
+This is base on the QEMU-Linux environment, and we boot linux through NFS. Before test it, we should change some environment variabes.
+
+   linux_driver/Makefile: KERNEL_PATH, change it to your dir of linux source.
+   linux_driver/copy.sh: NFS_PATH, change it to the root of NFS filesystem.
+
+
+
+== TEST ==
+Then we can test it through the following steps.
+
+Step 0:
+	$ sudo insmod /lib/modules/`uname -r`/kernel/drivers/net/can/vcan.ko
+	$ sudo ip link add type vcan
+	$ ip link set vcan0 up
+
+	Insert the vcan modules, as we mentioned above. Run **./candump vcan0** under can-utils directory.
+
+Step 1:
+	Start qemu with **"-chardev can,id=sja1000,port=vcan0 -device pci-can,chardev=sja1000"**.
+
+Step 2:
+	Change your dir to /home/qemu_test_pci and **./load** .
+
+Step 3:
+	Run a simple application, **./a.out** , you will get the message in host linux.
+
+
