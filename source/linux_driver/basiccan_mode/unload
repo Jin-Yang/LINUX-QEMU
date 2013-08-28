@@ -1,5 +1,5 @@
 #!/bin/sh
-module="qemu_test_pci"
+module="can_pci"
 device="can"
 
 # invoke rmmod with all arguments we got

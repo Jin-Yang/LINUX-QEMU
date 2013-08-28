@@ -1,0 +1,7 @@
+Some environment variables should be changed at first.
+
+Makefile:
+	KERNEL_PATH  the directory of the linux kernel.
+
+copy.sh
+	NFS_PATH  the directory that you want copy to.

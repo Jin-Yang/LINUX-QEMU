@@ -1,5 +1,0 @@
-insmod ./can_core.ko
-sleep 1
-insmod ./can.ko
-sleep 1
-insmod ./can_pci.ko

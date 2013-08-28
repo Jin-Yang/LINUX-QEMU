@@ -9,5 +9,9 @@ ifup-qemu
   a shell script for QEMU network.
 qemu.sh
   a shell script to start qemu.
-rootfs
+rootfs/
   this is a root filesystem for Linux NFS.
+backup/
+  some old code.
+source/
+  the linux driver and examples.

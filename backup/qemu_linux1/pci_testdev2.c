@@ -81,20 +81,20 @@ static const MemoryRegionOps pci_simple_tst_mmio_ops = {
 	.read = mem_pci_read,  
 	.write = mem_pci_write,  
 	.endianness = DEVICE_LITTLE_ENDIAN,
-/*    .impl = {
+    .impl = {
         .min_access_size = 1,
         .max_access_size = 1,
-    },*/
+    },
 };
 
 static const MemoryRegionOps pci_simple_tst_pio_ops = {  
 	.read = mem_pci_read,  
 	.write = mem_pci_write,  
 	.endianness = DEVICE_LITTLE_ENDIAN,
-/*    .impl = {
+    .impl = {
         .min_access_size = 1,
         .max_access_size = 1,
-    },*/
+    },
 };  
 
 static Property pci_simple_tst_properties[] = {
