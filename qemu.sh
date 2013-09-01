@@ -49,11 +49,19 @@ $PREFIX/qemu-system-i386 -s -m 128 -kernel bzImage \
 	-net nic,model=e1000,vlan=0,macaddr=00:cd:ef:00:02:01 \
 	-net tap,vlan=0,ifname=tap0,script=$WORKSPACE/ifup-qemu \
 	-serial none \
-	-chardev vc,id=PCIserial \
-	-device pci-serial,chardev=PCIserial \
+	-chardev vc,id=UDPserial \
+	-device pci-serial,chardev=UDPserial \
 	-chardev can,id=sja1000,port=vcan0 \
 	-device pci-can,chardev=sja1000
 
+
+
+
+#	-chardev udp,id=UDPserial,host=localhost,port=3334 \
+#	-device pci-serial,chardev=UDPserial \
+
+#	-chardev vc,id=PCIserial \
+#	-device pci-serial,chardev=PCIserial \
 
 
 #	-chardev can,id=pci0,port=vcan0 \

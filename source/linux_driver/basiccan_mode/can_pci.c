@@ -35,8 +35,10 @@ static void receive_message(void __iomem *base, struct can_frame *can)
 	memset(can, 0, sizeof(struct can_frame));
 	index = 20;
 	temp = ioread8(base + index++);
+	printk(" %02x", temp);
 	can->can_id = (temp << 3) & (0xff << 3);
 	temp = ioread8(base + index++);
+	printk(" %02x", temp);
 	can->can_id |= (temp >> 5) & 0x07;
 	if(temp & 0x10)
 		can->can_id |= (1 << 30);
@@ -44,8 +46,9 @@ static void receive_message(void __iomem *base, struct can_frame *can)
 	can->can_dlc = temp & 0x0f;
 	for(i = 0; i < can->can_dlc; i++) {
 		can->data[i] = ioread8(base + index++);
+		printk(" %02x", can->data[i]);
 	}
-
+	printk("\n");
    	iowrite8(0x04, base + SJA_COMMAND_REG);// Release receive buffer.
 }
 
@@ -263,8 +266,7 @@ static int pcisimple_probe(struct pci_dev *dev, const struct pci_device_id *id)
 
 
     device->mem_base = pci_iomap(dev, MEM_BAR, 0);
-    device->io_base = pci_iomap(dev, IO_BAR, 0);
-	if (!device->mem_base || !device->io_base) {
+	if (!device->mem_base) {
 		dev_err(&dev->dev, "pci_iomap FAILED %d", result);
 		goto err_iomap; 
   	}
@@ -305,7 +307,6 @@ err_register_chrdev_region:
 	free_irq(dev->irq, dev);
 
 err_request_irq:
-	pci_iounmap(dev, device->io_base);
 	pci_iounmap(dev, device->mem_base);
 
 err_iomap:
@@ -326,7 +327,6 @@ static void pcisimple_remove(struct pci_dev *dev)
 	cdev_del(&device->cdev);
 	unregister_chrdev_region(MKDEV(device_major, 0), 1);
 	free_irq(dev->irq, dev);
-	pci_iounmap(dev, device->io_base);
 	pci_iounmap(dev, device->mem_base);
 	pci_release_regions(dev);
 	pci_disable_device(dev);

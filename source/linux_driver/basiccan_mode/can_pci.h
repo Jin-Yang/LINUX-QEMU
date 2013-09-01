@@ -66,7 +66,7 @@ struct can_dev
 
 
 	
-	void __iomem *mem_base, *io_base;
+	void __iomem *mem_base;
 	resource_size_t io_len, mem_len;
 
 

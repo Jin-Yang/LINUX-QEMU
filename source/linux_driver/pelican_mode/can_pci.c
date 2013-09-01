@@ -89,21 +89,6 @@ static void receive_message(void __iomem *base, struct can_frame *can)
 }
 
 
-static void display_msg(struct can_frame *msg)
-{
-	int i;
-
-	DPRINTF("%03X [%01d] -", (msg->can_id & 0x1fffffff), msg->can_dlc);
-	if(msg->can_id & (1 << 31)) DPRINTF("EFF "); else DPRINTF("SFF ");
-	if(msg->can_id & (1 << 30)) DPRINTF("RTR-"); else DPRINTF("DAT-");
-	for(i = 0; i < msg->can_dlc; i++) {
-		DPRINTF("  %02X", msg->data[i]);
-	}
-	DPRINTF("\n");
-}
-
-
-
 
 static irqreturn_t irq_handler(int irq, void *dev)
 {
@@ -323,8 +308,7 @@ static int pcisimple_probe(struct pci_dev *dev, const struct pci_device_id *id)
 
 
     device->mem_base = pci_iomap(dev, MEM_BAR, 0);
-    device->io_base = pci_iomap(dev, IO_BAR, 0);
-	if (!device->mem_base || !device->io_base) {
+	if (!device->mem_base) {
 		dev_err(&dev->dev, "pci_iomap FAILED %d", result);
 		goto err_iomap; 
   	}
@@ -365,7 +349,6 @@ err_register_chrdev_region:
 	free_irq(dev->irq, dev);
 
 err_request_irq:
-	pci_iounmap(dev, device->io_base);
 	pci_iounmap(dev, device->mem_base);
 
 err_iomap:
@@ -386,7 +369,6 @@ static void pcisimple_remove(struct pci_dev *dev)
 	cdev_del(&device->cdev);
 	unregister_chrdev_region(MKDEV(device_major, 0), 1);
 	free_irq(dev->irq, dev);
-	pci_iounmap(dev, device->io_base);
 	pci_iounmap(dev, device->mem_base);
 	pci_release_regions(dev);
 	pci_disable_device(dev);
